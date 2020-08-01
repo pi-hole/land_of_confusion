@@ -1,0 +1,4 @@
+# These are supported funding model platforms
+
+patreon: pihole
+custom: ["https://pi-hole.net/donate", "https://commerce.coinbase.com/checkout/dd304d04-f324-4a77-931b-0db61c77a41b", "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QMNHJ7YAM3PH4"]
