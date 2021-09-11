@@ -8,13 +8,13 @@ on:
   pull_request:
   
 jobs:
-test:
-  runs-on: ubuntu-latest
-  strategy:
-    fail-fast: false  
-  steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v2
-    - name: Run Tests
-      run: |
-        echo "We are here"        
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false  
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Run Tests
+        run: |
+          echo "We are here"        
