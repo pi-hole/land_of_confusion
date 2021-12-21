@@ -13,7 +13,8 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v1
         with:
-          message: 'Hello! It appears you have opened this Pull Request to the `master` branch.
-                    - Please submit Pull Requests to the **`development` branch only**.
-                    - Before Submitting your Pull Request, rebase your branch on `development` and fix any conflicts.'
+          message: >
+            Thank you very much for your contribution. An automated check has shown that you have opened your Pull Request to the `master` branch. However, our project uses the `master` branch only for tested code.
+            
+            **Please submit your Pull Requests to the `development` branch**. In most cases, you don't have to create a new pull request but can simply [change the base branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
