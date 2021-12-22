@@ -2,7 +2,7 @@ name: PR Check
 
 on:
   pull_request_target:
-    # By default, a workflow only runs when a pull_request_target's activity type is opened, synchronize, or reopened. 
+    types: [opened, synchronize, edited, reopened]
 jobs:
   base_branch_check:
     runs-on: ubuntu-latest
