@@ -21,7 +21,7 @@ jobs:
           else
             value=false
           fi
-          echo ::set-output name=DO_CHECK::${DO_CHECK}
+          echo ::set-output name=value::${value}
       - name: Comment on invalid target
         if: steps.validTarget.outputs.value == 'false'
         uses: thollander/actions-comment-pull-request@v1
