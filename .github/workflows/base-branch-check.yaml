@@ -32,7 +32,7 @@ jobs:
           fi
           echo ::set-output name=value::${value}
       - name: Comment on invalid target
-        if: env.validPR == 'no'
+        if: env.validPR == 'no' && !contains(github.event.pull_request.labels.*.name, 'Invalid target')
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: >
