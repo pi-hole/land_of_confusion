@@ -16,10 +16,12 @@ jobs:
       - name: Determine if PR target is valid
         id: validTarget
         run: |
-          if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "false" && "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "false" ]]; then
-            value=true
+          if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "true" ]]; then
+            valid=true
+          elif [[ "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "true" ]]; then
+            valid=true
           else
-            value=false
+            valid=false
           fi
           echo ::set-output name=value::${value}
       - name: Comment on invalid target
