@@ -1,4 +1,4 @@
-name: Base Branch Checker
+name: PR Check
 
 on:
   pull_request_target:
@@ -8,7 +8,7 @@ on:
 jobs:
   base_branch_check:
     runs-on: ubuntu-latest
-    name: Base Branch Check
+    name: Base Branch
     steps:
       - name: Get branch names
         id: branch-name
@@ -16,11 +16,15 @@ jobs:
       - name: Determine if PR target is valid
         id: validTarget
         run: |
+          echo "head_ref_branch = ${{ steps.branch-name.outputs.head_ref_branch }}"
           if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "true" ]]; then
+            echo "Valid source branch (development)"
             valid=true
           elif [[ "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "true" ]]; then
+            echo "Valid source branch (release/...)"
             valid=true
           else
+            echo "Invalid source branch"
             valid=false
           fi
           echo ::set-output name=value::${value}
@@ -41,8 +45,8 @@ jobs:
           label: "Invalid target"
           type: add
       - name: Remove label on valid target # may have been added before
-        uses: buildsville/add-remove-label@v1
         if: steps.validTarget.outputs.value == 'true'
+        uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
