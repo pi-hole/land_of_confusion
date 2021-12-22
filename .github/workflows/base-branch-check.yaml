@@ -3,8 +3,6 @@ name: PR Check
 on:
   pull_request_target:
     # By default, a workflow only runs when a pull_request_target's activity type is opened, synchronize, or reopened. 
-    branches:
-      - master
 jobs:
   base_branch_check:
     runs-on: ubuntu-latest
@@ -13,22 +11,28 @@ jobs:
       - name: Get branch names
         id: branch-name
         uses: tj-actions/branch-names@v5.1
-      - name: Determine if PR target is valid
+      - name: Determine if PR is valid
         run: |
+          echo "base_ref_branch = ${{ steps.branch-name.outputs.base_ref_branch }}"
           echo "head_ref_branch = ${{ steps.branch-name.outputs.head_ref_branch }}"
-          if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "true" ]]; then
-            echo "Valid source branch (development)"
-            echo "validTarget=yes" >> $GITHUB_ENV
-          elif [[ "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "true" ]]; then
-            echo "Valid source branch (release/...)"
-            echo "validTarget=yes" >> $GITHUB_ENV
+          if [[ "${{ steps.branch-name.outputs.base_ref_branch  == 'master' }}" = "true" ]]; then
+            if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "true" ]]; then
+              echo "Valid PR: development -> master"
+              echo "validPR=yes" >> $GITHUB_ENV
+            elif [[ "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "true" ]]; then
+              echo "Valid PR: release/... -> master"
+              echo "validPR=yes" >> $GITHUB_ENV
+            else
+              echo "Invalid PR: ${{ steps.branch-name.outputs.head_ref_branch }} -> master"
+              echo "validPR=no" >> $GITHUB_ENV
+            fi
           else
-            echo "Invalid source branch"
-            echo "validTarget=no" >> $GITHUB_ENV
+            echo "Valid PR: ${{ steps.branch-name.outputs.head_ref_branch }} -> ${{ steps.branch-name.outputs.base_ref_branch }} "
+            echo "validPR=yes" >> $GITHUB_ENV
           fi
           echo ::set-output name=value::${value}
       - name: Comment on invalid target
-        if: env.validTarget == 'no'
+        if: env.validPR == 'no'
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: >
@@ -37,14 +41,17 @@ jobs:
             **Please submit your Pull Requests to the `development` branch**. In most cases, you don't have to create a new pull request but can simply [change the base branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add label on invalid target
-        if: env.validTarget == 'no'
+        if: env.validPR == 'no'
         uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
           type: add
+      - name: Close invalid PR
+        if: env.validPR == 'no'
+        uses: superbrothers/close-pull-request@v3
       - name: Remove label on valid target # may have been added before
-        if: env.validTarget == 'yes'
+        if: env.validPR == 'yes'
         uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
