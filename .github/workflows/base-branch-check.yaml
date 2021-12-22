@@ -37,9 +37,9 @@ jobs:
         with:
           message: >
             An automated check has shown that you have opened your Pull Request to the `master` branch. However, our project uses the `master` branch only for tested code.
-            
+
             **Please submit a new Pull Request to the `development` branch.**
-            
+
             You are the special type of person that makes Pi-hole better for us all! Thank you!
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add label on invalid target
