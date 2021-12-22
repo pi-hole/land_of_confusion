@@ -49,9 +49,9 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
           type: add
-      - name: Close invalid PR
-        if: env.validPR == 'no'
-        uses: superbrothers/close-pull-request@v3
+#      - name: Close invalid PR
+#        if: env.validPR == 'no'
+#        uses: superbrothers/close-pull-request@v3
       - name: Remove label on valid target # may have been added before
         if: env.validPR == 'yes'
         uses: buildsville/add-remove-label@v1
