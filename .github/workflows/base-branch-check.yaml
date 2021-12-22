@@ -23,7 +23,7 @@ jobs:
           if_true: 'true'
           if_false: 'false'
       - name: Comment on invalid target
-        if: steps.validTarget.outputs.value == "false"
+        if: steps.validTarget.outputs.value == 'false'
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: >
@@ -32,7 +32,7 @@ jobs:
             **Please submit your Pull Requests to the `development` branch**. In most cases, you don't have to create a new pull request but can simply [change the base branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add label on invalid target
-        if: steps.validTarget.outputs.value == "false"
+        if: steps.validTarget.outputs.value == 'false'
         uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
@@ -40,7 +40,7 @@ jobs:
           type: add
       - name: Remove label on valid target # may have been added before
         uses: buildsville/add-remove-label@v1
-        if: steps.validTarget.outputs.value == "true"
+        if: steps.validTarget.outputs.value == 'true'
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
