@@ -3,7 +3,6 @@ name: PR Check
 on:
   pull_request_target:
     # By default, a workflow only runs when a pull_request_target's activity type is opened, synchronize, or reopened. 
-    types: [opened, synchronize, edited, reopened]
 jobs:
   base_branch_check:
     runs-on: ubuntu-latest
@@ -37,9 +36,11 @@ jobs:
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: >
-            Thank you very much for your contribution. An automated check has shown that you have opened your Pull Request to the `master` branch. However, our project uses the `master` branch only for tested code.
+            An automated check has shown that you have opened your Pull Request to the `master` branch. However, our project uses the `master` branch only for tested code.
             
-            **Please submit your Pull Requests to the `development` branch**. In most cases, you don't have to create a new pull request but can simply [change the base branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request)
+            **Please submit a new Pull Request to the `development` branch.**
+            
+            You are the special type of person that makes Pi-hole better for us all! Thank you!
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add label on invalid target
         if: env.validPR == 'no'
@@ -48,9 +49,9 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
           type: add
-#      - name: Close invalid PR
-#        if: env.validPR == 'no'
-#        uses: superbrothers/close-pull-request@v3
+      - name: Close invalid PR
+        if: env.validPR == 'no'
+        uses: superbrothers/close-pull-request@v3
       - name: Remove label on valid target # may have been added before
         if: env.validPR == 'yes'
         uses: buildsville/add-remove-label@v1
