@@ -14,22 +14,21 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v5.1
       - name: Determine if PR target is valid
-        id: validTarget
         run: |
           echo "head_ref_branch = ${{ steps.branch-name.outputs.head_ref_branch }}"
           if [[ "${{ steps.branch-name.outputs.head_ref_branch  == 'development' }}" = "true" ]]; then
             echo "Valid source branch (development)"
-            valid=true
+            echo "validTarget=yes" >> $GITHUB_ENV
           elif [[ "${{ startsWith(steps.branch-name.outputs.head_ref_branch, 'release/') }}" = "true" ]]; then
             echo "Valid source branch (release/...)"
-            valid=true
+            echo "validTarget=yes" >> $GITHUB_ENV
           else
             echo "Invalid source branch"
-            valid=false
+            echo "validTarget=no" >> $GITHUB_ENV
           fi
           echo ::set-output name=value::${value}
       - name: Comment on invalid target
-        if: steps.validTarget.outputs.value == 'false'
+        if: env.validTarget == 'no'
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: >
@@ -38,14 +37,14 @@ jobs:
             **Please submit your Pull Requests to the `development` branch**. In most cases, you don't have to create a new pull request but can simply [change the base branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add label on invalid target
-        if: steps.validTarget.outputs.value == 'false'
+        if: env.validTarget == 'no'
         uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           label: "Invalid target"
           type: add
       - name: Remove label on valid target # may have been added before
-        if: steps.validTarget.outputs.value == 'true'
+        if: env.validTarget == 'yes'
         uses: buildsville/add-remove-label@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
