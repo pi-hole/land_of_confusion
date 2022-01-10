@@ -1,4 +1,4 @@
-name: Sync Back to Develop
+name: Sync Back to Development
 
 on:
   push:
@@ -24,8 +24,9 @@ jobs:
           FROM_BRANCH: 'master'
           TO_BRANCH: 'development'
           CONTENT_COMPARISON: true
-      - uses: actions-ecosystem/action-add-labels@v1
+      - name: Label the pull request to ignore for release note generation
+        uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: ignore-for-release
-          repo: pi-hole/land_of_confusion
+          repo: ${{ github.repository	}}
           number: ${{ steps.pull.outputs.PULL_REQUEST_NUMBER }}
