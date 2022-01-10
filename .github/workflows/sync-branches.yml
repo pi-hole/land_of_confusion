@@ -24,3 +24,8 @@ jobs:
           FROM_BRANCH: 'master'
           TO_BRANCH: 'development'
           CONTENT_COMPARISON: true
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: ignore-for-release
+          repo: pi-hole/land_of_confusion
+          number: ${{ steps.pull.outputs.PULL_REQUEST_NUMBER }}
