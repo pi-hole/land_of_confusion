@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - '**'
+    tags:
+      - '**'
 
 env:
   GIT_TAG: ${{ github.event.release.tag_name }}
+  GIT_BRANCH: ${GITHUB_REF#refs/*/}
   
 jobs:
   playwithenv:
@@ -16,3 +19,4 @@ jobs:
         name: Do something
         run: |
           echo "GIT_TAG is set to ${GIT_TAG}"
+          echo "GIT_BRANCH is set to ${GIT_BRANCH}"
