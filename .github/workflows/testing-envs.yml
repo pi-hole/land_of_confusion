@@ -1,0 +1,18 @@
+name: Build, Test, Deploy
+
+on:
+  push:
+    branches:
+      - '**'
+
+env:
+  GIT_TAG: ${{ github.event.release.tag_name }}
+  
+jobs:
+  playwithenv:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Do something
+        run: |
+          echo "GIT_TAG is set to ${GIT_TAG}"
