@@ -10,7 +10,7 @@ on:
 env:
   GIT_TAG: ${{ github.event.release.tag_name }}
   GIT_BRANCH: ${GITHUB_REF#refs/*/}
-  
+
 jobs:
   playwithenv:
     runs-on: ubuntu-latest
