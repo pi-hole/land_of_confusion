@@ -2,15 +2,15 @@ name: Test & Build
 on:
   release:
     types: [published]
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false  
+      fail-fast: false
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.0.0
       - name: Run Tests
         run: |
-          echo "We are here"        
+          echo "We are here"
