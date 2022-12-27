@@ -24,7 +24,6 @@ jobs:
           # using 1 day for testing
           days-before-close: 1
           stale-pr-label: 'merge conflict'
-          any-of-labels: 'merge conflict'
           exempt-pr-labels: 'Internal, Documentation Needed'
           exempt-draft-pr: true
           exempt-all-pr-assignees: true
