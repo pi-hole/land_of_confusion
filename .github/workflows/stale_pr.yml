@@ -24,8 +24,9 @@ jobs:
           days-before-stale: -1
           # using 1 day for testing
           days-before-close: 1
+          days-before-pr-stale: 0
           any-of-labels: 'merge conflict'
           exempt-pr-labels: 'Internal, Documentation Needed'
           exempt-all-pr-assignees: true
           operations-per-run: 300
-          close-pr-message: 'This PR was considered abandoned (it has merge conflicts and it was not updated on the last 30 days).'
+          stale-pr-message: 'Existing merge conflicts have not been addressed. This PR is considered abandoned.'
