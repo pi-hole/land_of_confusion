@@ -1,0 +1,1 @@
+Delete this file after finish the tests of `stale_pr.yml` action.
