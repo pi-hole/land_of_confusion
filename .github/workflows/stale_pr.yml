@@ -23,8 +23,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           days-before-stale: -1
           # using 1 day for testing
-          days-before-pr-stale: 1
-          days-before-close: 0
+          days-before-close: 1
+          days-before-pr-stale: 0
           any-of-labels: 'merge conflict'
           exempt-pr-labels: 'Internal, Documentation Needed'
           exempt-all-pr-assignees: true
