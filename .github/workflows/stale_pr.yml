@@ -28,6 +28,7 @@ jobs:
           any-of-labels: 'merge conflict'
           exempt-pr-labels: 'Internal, Documentation Needed'
           exempt-all-pr-assignees: true
+          exempt-draft-pr: true
           operations-per-run: 300
           stale-pr-message: ''
           close-pr-message: 'Existing merge conflicts have not been addressed. This PR is considered abandoned.'
