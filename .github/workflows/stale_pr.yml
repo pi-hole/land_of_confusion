@@ -6,7 +6,7 @@ name: Close stale PR containing merge conflicts
 
 on:
   schedule:
-    - cron: '10 * * * *'
+    - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           days-before-stale: -1
           # using 1 day for testing
-          days-before-pr-stale: 1
+          days-before-pr-stale: 30
           days-before-pr-close: 0
           any-of-labels: 'merge conflict'
           exempt-pr-labels: 'Internal, Documentation Needed'
