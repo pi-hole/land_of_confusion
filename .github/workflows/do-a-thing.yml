@@ -1,0 +1,32 @@
+name: do a thing
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  do-a-thing:
+    name: do a thing
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Get docs repository
+        run: |
+          git clone https://github.com/pi-hole/docs.git docs-repo
+          touch docs-repo/docs/ftldns/configfile2.md
+          echo "no" > docs-repo/docs/ftldns/configfile2.md
+          cd docs-repo && git diff
+      -
+        name: Create Pull Request to pi-hole/docs
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.PRALOR_PULL_REQUESTS }}
+          commit-message: "docs: update pihole.toml documentation"
+          title: "Update pihole.toml documentation"
+          body: "Automated update of pihole.toml documentation from FTL build."
+          branch: update-pihole-toml-docs
+          base: master
+          path: docs-repo
+          add-paths: |
+            docs/ftldns/configfile2.md
